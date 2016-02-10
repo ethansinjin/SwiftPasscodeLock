@@ -23,13 +23,23 @@ public class PasscodeLockPresenter {
     }()
     
     private let passcodeConfiguration: PasscodeLockConfigurationType
-    private var isPasscodePresented = false
+    public var isPasscodePresented = false
+    public let passcodeLockVC: PasscodeLockViewController
     
-    public init(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType) {
+    public init(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType, viewController: PasscodeLockViewController) {
         
         mainWindow = window
         mainWindow?.windowLevel = 1
         passcodeConfiguration = configuration
+        
+        passcodeLockVC = viewController
+    }
+
+    public convenience init(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType) {
+        
+        let passcodeLockVC = PasscodeLockViewController(state: .EnterPasscode, configuration: configuration)
+        
+        self.init(mainWindow: window, configuration: configuration, viewController: passcodeLockVC)
     }
     
     public func presentPasscodeLock() {
@@ -38,13 +48,19 @@ public class PasscodeLockPresenter {
         guard !isPasscodePresented else { return }
         
         isPasscodePresented = true
+        
         passcodeLockWindow.windowLevel = 2
         passcodeLockWindow.hidden = false
+        
         mainWindow?.windowLevel = 1
-                
+        mainWindow?.endEditing(true)
+        
         let passcodeLockVC = PasscodeLockViewController(state: .EnterPasscode, configuration: passcodeConfiguration)
+        let userDismissCompletionCallback = passcodeLockVC.dismissCompletionCallback
         
         passcodeLockVC.dismissCompletionCallback = { [weak self] in
+            
+            userDismissCompletionCallback?()
             
             self?.dismissPasscodeLock()
         }
@@ -52,11 +68,24 @@ public class PasscodeLockPresenter {
         passcodeLockWindow.rootViewController = passcodeLockVC
     }
     
-    private func dismissPasscodeLock() {
+    public func dismissPasscodeLock(animated animated: Bool = true) {
         
         isPasscodePresented = false
         mainWindow?.windowLevel = 1
         mainWindow?.makeKeyAndVisible()
+        
+        if animated {
+        
+            animatePasscodeLockDismissal()
+            
+        } else {
+            
+            passcodeLockWindow.windowLevel = 0
+            passcodeLockWindow.rootViewController = nil
+        }
+    }
+    
+    internal func animatePasscodeLockDismissal() {
         
         UIView.animateWithDuration(
             0.5,
@@ -73,8 +102,6 @@ public class PasscodeLockPresenter {
                 self?.passcodeLockWindow.windowLevel = 0
                 self?.passcodeLockWindow.rootViewController = nil
                 self?.passcodeLockWindow.alpha = 1
-                self?.passcodeLockWindow.hidden = true
-                self?.mainWindow?.windowLevel = 0
             }
         )
     }
