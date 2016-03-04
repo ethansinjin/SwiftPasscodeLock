@@ -42,7 +42,7 @@ public class PasscodeLockPresenter {
         self.init(mainWindow: window, configuration: configuration, viewController: passcodeLockVC)
     }
     
-    public func presentPasscodeLock() {
+    public func presentPasscodeLock(completion: (() -> Void)?) {
         
         guard passcodeConfiguration.repository.hasPasscode else { return }
         guard !isPasscodePresented else { return }
@@ -63,6 +63,8 @@ public class PasscodeLockPresenter {
             userDismissCompletionCallback?()
             
             self?.dismissPasscodeLock()
+            
+            completion?()
         }
         
         passcodeLockWindow.rootViewController = passcodeLockVC
