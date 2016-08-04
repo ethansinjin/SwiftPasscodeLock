@@ -18,7 +18,7 @@ func localizedStringFor(_ key: String, comment: String) -> String {
 
 func bundleForResource(_ name: String, ofType type: String) -> Bundle {
     
-    if(Bundle.main.pathForResource(name, ofType: type) != nil) {
+    if(Bundle.main.path(forResource: name, ofType: type) != nil) {
         return Bundle.main
     }
     
