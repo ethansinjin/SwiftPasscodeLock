@@ -10,13 +10,13 @@ import UIKit
 
 open class PasscodeLockViewController: UIViewController, PasscodeLockTypeDelegate {
 
-    open enum LockState {
+    public enum LockState {
         case enterPasscode
         case setPasscode
         case changePasscode
         case removePasscode
 
-        open func getState() -> PasscodeLockStateType {
+        public func getState() -> PasscodeLockStateType {
 
             switch self {
             case .enterPasscode: return EnterPasscodeState()
