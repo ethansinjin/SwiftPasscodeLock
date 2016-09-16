@@ -80,7 +80,7 @@ open class PasscodeLockViewController: UIViewController, PasscodeLockTypeDelegat
 
     // MARK: - View
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         cancelButton?.setTitle(localizedStringFor("PasscodeLockCancel", comment: "Cancel"), for: UIControlState())
@@ -92,7 +92,7 @@ open class PasscodeLockViewController: UIViewController, PasscodeLockTypeDelegat
         setupEvents()
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if shouldTryToAuthenticateWithBiometrics {
