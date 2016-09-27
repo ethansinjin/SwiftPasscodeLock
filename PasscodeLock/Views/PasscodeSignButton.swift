@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-public class PasscodeSignButton: UIButton {
+open class PasscodeSignButton: UIButton {
     
     @IBInspectable
     public var passcodeSign: String = "1"
@@ -50,7 +50,7 @@ public class PasscodeSignButton: UIButton {
         setupActions()
     }
     
-    public override var intrinsicContentSize: CGSize {
+    open override var intrinsicContentSize: CGSize {
         
         return CGSize(width: 60, height: 60)
     }
