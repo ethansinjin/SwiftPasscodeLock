@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-public class PasscodeSignPlaceholderView: UIView {
+open class PasscodeSignPlaceholderView: UIView {
     
     public enum State {
         case inactive
@@ -50,7 +50,7 @@ public class PasscodeSignPlaceholderView: UIView {
         super.init(coder: aDecoder)
     }
     
-    public override var intrinsicContentSize: CGSize {
+    open override var intrinsicContentSize: CGSize {
         
         return CGSize(width: 16, height: 16)
     }
